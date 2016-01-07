@@ -10,7 +10,6 @@ import javax.persistence.PreUpdate;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
-import org.hibernate.annotations.Type;
 
 import com.claridy.khub.admin.core.utils.DateUtils;
 
@@ -32,7 +31,7 @@ public abstract class PersistentObject<K extends Serializable> implements Serial
     private LocalDateTime  createdTime;
 
     @Column
-    private LocalDateTime  updatedTime;
+    private LocalDateTime  lastModifiedTime;
 
     @Override
     public int hashCode() {
@@ -66,12 +65,12 @@ public abstract class PersistentObject<K extends Serializable> implements Serial
 
     @PrePersist
     protected void onCreate() {
-        updatedTime = createdTime = LocalDateTime.now(DateUtils.TIME_ZONE);
+        lastModifiedTime = createdTime = LocalDateTime.now(DateUtils.TIME_ZONE);
     }
 
     @PreUpdate
     protected void onUpdate() {
-        updatedTime = LocalDateTime.now(DateUtils.TIME_ZONE);
+        lastModifiedTime = LocalDateTime.now(DateUtils.TIME_ZONE);
     }
 
     public abstract K getId();

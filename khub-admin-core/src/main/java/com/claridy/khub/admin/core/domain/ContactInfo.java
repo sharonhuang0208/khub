@@ -7,6 +7,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.validator.constraints.Email;
 
 import com.claridy.khub.admin.core.persistent.SurrogateUuidKeyObject;
 
@@ -54,6 +55,7 @@ public class ContactInfo extends SurrogateUuidKeyObject {
     private String faxNumber;
 
     // EMAIL
+    @Email
     @Column(length = 200)
     private String email;
 

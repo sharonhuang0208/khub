@@ -7,6 +7,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.validator.constraints.Email;
 
 import com.claridy.khub.admin.core.persistent.SurrogateUuidKeyObject;
 
@@ -86,6 +87,7 @@ public class AttendingPeople extends SurrogateUuidKeyObject {
     private String departmentAddr;
 
     // 通訊作者信箱
+    @Email
     @Column(length = 200)
     private String email;
 

@@ -13,6 +13,7 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.Type;
+import org.hibernate.validator.constraints.Email;
 
 import com.claridy.khub.admin.core.enums.PermissionEnum;
 import com.claridy.khub.admin.core.enums.StatusEnum;
@@ -53,6 +54,7 @@ public class BackendUser extends SurrogateUuidKeyObject {
     private String name;
 
     // 電子郵件
+    @Email
     @Column(length = 200)
     private String email;
 
