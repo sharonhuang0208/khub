@@ -26,7 +26,7 @@ public class ApplicationPersistenceTest {
 
         String uuid = application.getId();
 
-        Assert.assertEquals(application, applicationRepository.findOne(uuid).get());
+        Assert.assertEquals(application, applicationRepository.findOne(uuid));
 
     }
 

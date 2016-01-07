@@ -1,36 +1,34 @@
 package com.claridy.khub.admin.core.repository;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.querydsl.QueryDslPredicateExecutor;
 import org.springframework.data.repository.NoRepositoryBean;
 import org.springframework.data.repository.Repository;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.claridy.khub.admin.core.persistent.PersistentObject;
+import com.mysema.query.types.OrderSpecifier;
+import com.mysema.query.types.Predicate;
+
+
 
 @NoRepositoryBean
-public interface BaseRepository<T extends PersistentObject<ID>, ID extends Serializable> extends Repository<T, ID>, QueryDslPredicateExecutor<T>{
+public interface BaseRepository<T extends PersistentObject<ID>, ID extends Serializable> extends JpaRepository<T, ID>, QueryDslPredicateExecutor<T>{
 
-    public abstract <S extends T> S save(S paramS);
+    @Override
+    public List<T> findAll(Predicate predicate);
 
-    public abstract <S extends T> Iterable<S> save(Iterable<S> paramIterable);
+    @Override
+    public List<T> findAll(Predicate predicate, Sort sort);
 
-    public abstract Optional<T> findOne(ID paramID);
+    @Override
+    public List<T> findAll(Predicate predicate, OrderSpecifier<?>... orders);
 
-    public abstract boolean exists(ID paramID);
+    @Override
+    public List<T> findAll(OrderSpecifier<?>... orders);
 
-    public abstract Iterable<T> findAll();
-
-    public abstract Iterable<T> findAll(Iterable<ID> paramIterable);
-
-    public abstract long count();
-
-    public abstract void delete(ID paramID);
-
-    public abstract void delete(T paramT);
-
-    public abstract void delete(Iterable<? extends T> paramIterable);
-
-    public abstract void deleteAll();
 }
