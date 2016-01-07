@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration status="INFO">
+    <appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <ThresholdFilter level="trace" onMatch="ACCEPT" onMismatch="DENY" />
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} %-5level %class{36} %L %M - %msg%xEx%n" />
+        </Console>
+        <File name="File" fileName="D:/logs/khub/khub-admin-core.log" append="false">
+            <PatternLayout charset="UTF-8" pattern="%d{HH:mm:ss.SSS} %-5level %class{36} %L %M - %msg%xEx%n" />
+        </File>
+        <!--  RollingFile name="RollingFile" fileName="D:/logs/khub/khub-admin-core.log"
+            filePattern="D:/logs/khub/khub-admin-core-%d{MM-dd-yyyy}-%i.log.gz">
+            <PatternLayout charset="UTF-8"
+                pattern="%d{yyyy.MM.dd 'at' HH:mm:ss z} %-5level %class{36} %L %M - %msg%xEx%n" />
+            <SizeBasedTriggeringPolicy size="1 MB" />
+        </RollingFile -->
+    </appenders>
+    <loggers>
+        <logger name="org" level="warn"/>
+        <logger name="java" level="warn"/>
+        <logger name="javax" level="warn"/>
+
+        <logger name="org.hibernate" level="info"/>
+        <logger name="org.springframework" level="info"/>
+        <logger name="com.p6spy" level="info"/>
+
+        <logger name="com.claridy" level="trace"/>
+        <root level="info">
+            <appender-ref ref="Console" />
+            <appender-ref ref="File" />
+        </root>
+    </loggers>
+</configuration>

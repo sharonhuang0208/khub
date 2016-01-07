@@ -1,0 +1,3 @@
+include 'khub-admin-core','khub-admin-web'
+
+rootProject.name = 'khub'

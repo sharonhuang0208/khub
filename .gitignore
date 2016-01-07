@@ -1,0 +1,16 @@
+/.classpath
+/.project
+/.settings/
+/.gradle/
+/build/
+/khub-admin-core/.settings/
+/khub-admin-core/bin/
+/khub-admin-core/build/
+/khub-admin-core/.classpath
+/khub-admin-core/.project
+/khub-admin-core/spy.log
+/khub-admin-web/.settings/
+/khub-admin-web/bin/
+/khub-admin-web/build/
+/khub-admin-web/.classpath
+/khub-admin-web/.project

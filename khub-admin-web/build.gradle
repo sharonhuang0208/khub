@@ -1,0 +1,87 @@
+ext {
+    ext {
+        // convert 'future' types between rxjava, java, spring and guava
+        futureConverterVersion='0.3.0'
+        // java runtime compiler
+        openhftCompilerVersion='2.2.1'
+        // AA framework
+        shiroVersion='1.2.4'
+        // cache framework
+        ehcacheVersion='2.6.11'
+        // pdf generator
+        itextpdfVersion='5.5.8'
+        p6spyVersion='2.1.4'
+
+        // lambda utils
+        joolVersion='0.9.8'
+        // xml parser
+        jooxVersion='1.3.0'
+        // implementation of reactive pattern
+        simpleReactVersion='0.99.6'
+        // deferred/promise library
+        jdeferredVersion='1.2.4'
+        // detect character encoding
+        jUniversalCharDetVersion='1.0.3'
+
+    }
+}
+
+apply plugin: 'eclipse-wtp'
+apply plugin: 'war'
+
+javadoc {
+    exclude '**/util/**'
+
+    options {
+        doclet = "org.benjchristensen.doclet.DocletExclude"
+        docletpath = [rootProject.file('./gradle/doclet-exclude.jar')]
+        stylesheetFile = rootProject.file('./gradle/javadocStyleSheet.css')
+        windowTitle = "Postman Javadoc ${project.version}"
+    }
+    options.addStringOption('top').value = '<a href="http://61.218.66.235:81/admin/groups/postman"><img width="92" height="79" border="0" align="left" src=""></a><h2 class="title" style="padding-top:40px">Postman</h2>'
+}
+
+dependencies {
+    compile project(':khub-admin-core')
+
+    //log4j2 dependency
+//    compile "org.apache.logging.log4j:log4j-web:$log4j2Version"
+
+    compile "com.h2database:h2"
+
+    compile "net.javacrumbs.future-converter:future-converter-rxjava-java8:${futureConverterVersion}"
+    compile "net.javacrumbs.future-converter:future-converter-spring-java8:${futureConverterVersion}"
+
+    compile "net.openhft:compiler:$openhftCompilerVersion"
+    compile "com.itextpdf:itextpdf:$itextpdfVersion"
+    compile "p6spy:p6spy:$p6spyVersion"
+
+    //Shiro
+    compile "org.apache.shiro:shiro-core:$shiroVersion"
+    compile "org.apache.shiro:shiro-web:$shiroVersion"
+    compile "org.apache.shiro:shiro-ehcache:$shiroVersion"
+    compile "org.apache.shiro:shiro-spring:$shiroVersion"
+    compile "net.sf.ehcache:ehcache-core:$ehcacheVersion"
+
+    compile "org.jooq:jool:$joolVersion"
+    compile "org.jooq:joox:$jooxVersion"
+    compile "com.aol.simplereact:simple-react:$simpleReactVersion"
+    compile "org.jdeferred:jdeferred-core:$jdeferredVersion"
+
+    compile "com.googlecode.juniversalchardet:juniversalchardet:${jUniversalCharDetVersion}"
+
+    provided "javax.servlet:javax.servlet-api:$servletApiVersion"
+
+}
+
+task buildDocker(type: Docker, dependsOn: build) {
+    push = false
+    applicationName = jar.baseName
+    dockerfile = file('src/main/docker/Dockerfile')
+    doFirst {
+      copy {
+        from jar
+        into stageDir
+      }
+    }
+}
