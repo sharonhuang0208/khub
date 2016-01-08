@@ -6,6 +6,7 @@
 /khub-admin-core/.settings/
 /khub-admin-core/bin/
 /khub-admin-core/build/
+/khub-admin-core/src/querydsl
 /khub-admin-core/.classpath
 /khub-admin-core/.project
 /khub-admin-core/spy.log
