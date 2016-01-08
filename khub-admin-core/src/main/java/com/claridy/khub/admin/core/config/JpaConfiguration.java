@@ -55,14 +55,14 @@ public class JpaConfiguration {
 
         jpaProperties.put(SCHEMA_GEN_DB_NAME, dataSource.getConnection().getMetaData().getDatabaseProductName());
         jpaProperties.put(SCHEMA_GEN_DB_MAJOR_VERSION, dataSource.getConnection().getMetaData().getDatabaseProductVersion());
+        jpaProperties.put(HBM2DDL_AUTO, hibernateHbm2ddlAuto);
 
         if (createDatabaseSchemas) {
             jpaProperties.put(SCHEMA_GEN_CREATE_SCHEMAS, createDatabaseSchemas.toString());
             jpaProperties.put(SCHEMA_GEN_SCRIPTS_ACTION, "drop-and-create");
             jpaProperties.put(SCHEMA_GEN_SCRIPTS_CREATE_TARGET, "src/main/resources/sql/schema.sql");
             jpaProperties.put(SCHEMA_GEN_SCRIPTS_DROP_TARGET, "src/main/resources/sql/drop.sql");
-        } else
-            jpaProperties.put(HBM2DDL_AUTO, hibernateHbm2ddlAuto);
+        }
 
         return jpaProperties;
     }
