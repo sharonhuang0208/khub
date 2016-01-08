@@ -2,6 +2,7 @@ package com.claridy.khub.admin.core.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
@@ -29,7 +30,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Entity
 @Table(uniqueConstraints=
-@UniqueConstraint(columnNames={"type", "code", "language"}))
+@UniqueConstraint(columnNames={"type", "code", "language_id"}))
 @DynamicUpdate(value = true)
 public class Code extends SurrogateUuidKeyObject {
 
@@ -53,9 +54,9 @@ public class Code extends SurrogateUuidKeyObject {
     private String description;
 
     //語系
-    @Column(length = 5)
+    @ManyToOne
     @NotNull
-    private String language;
+    private Language language;
 
     //狀態
     @Type(type = "com.claridy.khub.admin.core.hibernate.StatusEnumValueUserType")
