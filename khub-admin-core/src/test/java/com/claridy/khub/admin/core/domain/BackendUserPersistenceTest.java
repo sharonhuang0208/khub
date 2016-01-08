@@ -1,19 +1,12 @@
 package com.claridy.khub.admin.core.domain;
 
-import org.junit.Assert;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.claridy.khub.admin.core.repository.ApplicationRepository;
 import com.claridy.khub.admin.core.repository.BackendUserRepository;
 
-@ContextConfiguration(locations={"classpath:applicationContext-test.xml"})
-@RunWith(SpringJUnit4ClassRunner.class)
-public class BackendUserPersistenceTest {
+public class BackendUserPersistenceTest extends AnstractPersistence {
     @Autowired
     private BackendUserRepository backendUserRepository;
 
@@ -22,5 +15,12 @@ public class BackendUserPersistenceTest {
     public void testSaveAndGetAndDelete() throws Exception {
     }
 
+    @Override
+    public void doBefore() {
+    }
+
+    @Override
+    public void doAfter() {
+    }
 
 }

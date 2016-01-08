@@ -3,59 +3,64 @@ package com.claridy.khub.admin.core.config;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.hibernate.cfg.Environment;
+import javax.sql.DataSource;
+
+import static org.hibernate.cfg.Environment.*;
+import static org.hibernate.jpa.AvailableSettings.*;
+
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.beans.factory.config.YamlPropertiesFactoryBean;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
-import org.springframework.core.io.ClassPathResource;
+
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
+
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.Database;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
+
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @EnableTransactionManagement
 @Configuration
 @EnableJpaRepositories(basePackages = { "com.claridy.khub.admin.core.repository" })
-@ComponentScan(basePackages = { "com.claridy.khub.admin.core.domai", "com.claridy.khub.admin.core.repository" })
+@ComponentScan({ "com.claridy.khub.admin.core.domain", "com.claridy.khub.admin.core.repository",
+        "com.claridy.khub.admin.core.persistent", "com.claridy.khub.admin.core.config" })
 public class JpaConfiguration {
 
-    @Value("#{dataSource}")
-    private javax.sql.DataSource dataSource;
     @Value("${hibernate.dialect:org.hibernate.dialect.MySQLDialect}")
     private String hibernateDialect;
+
+    @Value("${hibernate.hbm2ddl.auto:validate}")
+    private String hibernateHbm2ddlAuto;
+
+    @Value("${hibernate.default_schema:khub}")
+    private String hibernateDefaultSchema;
+
+    @Value("${javax.persistence.create-database-schemas:false}")
+    private Boolean createDatabaseSchemas;
 
     @Bean
     public Map<String, String> jpaProperties() {
         Map<String, String> jpaProperties = new HashMap<String, String>();
-        jpaProperties.put("hibernate.dialect", hibernateDialect);
 
-        /*
-         *  hibernate naming strategy for hibernate 4.x and below
-        jpaProperties.put("hibernate.ejb.naming_strategy", "org.hibernate.cfg.ImprovedNamingStrategy");
-        */
-        jpaProperties.put("hibernate.physical_naming_strategy", "com.claridy.khub.admin.core.hibernate.ImprovedNamingStrategy");
+        jpaProperties.put(DIALECT, hibernateDialect);
+        jpaProperties.put(PHYSICAL_NAMING_STRATEGY, "com.claridy.khub.admin.core.hibernate.ImprovedNamingStrategy");
+        jpaProperties.put(HBM2DDL_AUTO, hibernateHbm2ddlAuto);
+        jpaProperties.put(DEFAULT_SCHEMA, hibernateDefaultSchema);
 
-        jpaProperties.put(Environment.HBM2DDL_AUTO, "create");
-        jpaProperties.put("javax.persistence.schema-generation.create-database-schemas", "true");
-        jpaProperties.put("javax.persistence.schema-generation.scripts.action", "create");
-        jpaProperties.put("javax.persistence.schema-generation.scripts.create-target", "src/test/resources/schema.sql");
+        if (createDatabaseSchemas) {
+            jpaProperties.put(SCHEMA_GEN_CREATE_SCHEMAS, createDatabaseSchemas.toString());
+            jpaProperties.put(SCHEMA_GEN_SCRIPTS_ACTION, "drop-and-create");
+            jpaProperties.put(SCHEMA_GEN_SCRIPTS_CREATE_TARGET, "src/main/resources/sql/schema.sql");
+            jpaProperties.put(SCHEMA_GEN_SCRIPTS_DROP_TARGET, "src/main/resources/sql/drop.sql");
+        }
 
-        /*
-        jpaProperties.put(Environment.HBM2DDL_IMPORT_FILES, "data.sql");
-        jpaProperties.put("javax.persistence.database-product-name", "HSQL");
-        jpaProperties.put("jadira.usertype.autoRegisterUserTypes", "true");
-        jpaProperties.put("jadira.usertype.databaseZone", "jvm");
-        jpaProperties.put("jadira.usertype.javaZone", "jvm");
-        */
-        // props.put("hibernate.cache.provider_class",
-        // HashtableCacheProvider.class.getName());
         return jpaProperties;
     }
 
@@ -69,27 +74,29 @@ public class JpaConfiguration {
     }
 
     @Bean
-    public PlatformTransactionManager transactionManager() {
-        return new JpaTransactionManager(entityManagerFactory().getObject());
+    public PlatformTransactionManager transactionManager(DataSource dataSource) {
+        return new JpaTransactionManager(entityManagerFactory(dataSource).getObject());
     }
 
     @Bean
-    public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
-        LocalContainerEntityManagerFactoryBean lcef = new LocalContainerEntityManagerFactoryBean();
-        lcef.setDataSource(this.dataSource);
-        lcef.setJpaPropertyMap(this.jpaProperties());
-        lcef.setJpaVendorAdapter(this.jpaVendorAdapter());
-        lcef.setPackagesToScan("com.claridy.khub.admin.core.domain");
-        return lcef;
+    public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource) {
+        LocalContainerEntityManagerFactoryBean localContainerEntityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean();
+        localContainerEntityManagerFactoryBean.setDataSource(dataSource);
+        localContainerEntityManagerFactoryBean.setJpaPropertyMap(this.jpaProperties());
+        localContainerEntityManagerFactoryBean.setJpaVendorAdapter(this.jpaVendorAdapter());
+        localContainerEntityManagerFactoryBean.setPackagesToScan("com.claridy.khub.admin.core.domain");
+        return localContainerEntityManagerFactoryBean;
     }
 
     @Bean
-    public static PropertySourcesPlaceholderConfigurer properties() {
-        PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer = new PropertySourcesPlaceholderConfigurer();
-        YamlPropertiesFactoryBean yaml = new YamlPropertiesFactoryBean();
-        yaml.setResources(new ClassPathResource("persistent.yml"));
-        propertySourcesPlaceholderConfigurer.setProperties(yaml.getObject());
-        return propertySourcesPlaceholderConfigurer;
+    public DataSource dataSource(@Value("${jdbc.driverClassName}") String driverClassName,
+            @Value("${jdbc.url}") String url, @Value("${jdbc.username}") String username,
+            @Value("${jdbc.password}") String password) {
+        DriverManagerDataSource dataSource = new DriverManagerDataSource();
+        dataSource.setDriverClassName(driverClassName);
+        dataSource.setUrl(url);
+        dataSource.setUsername(username);
+        dataSource.setPassword(password);
+        return dataSource;
     }
-
 }
