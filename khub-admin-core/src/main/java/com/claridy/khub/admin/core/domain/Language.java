@@ -1,12 +1,14 @@
 package com.claridy.khub.admin.core.domain;
 
+import java.util.Locale;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.DynamicUpdate;
 
-import com.claridy.khub.admin.core.persistent.SurrogateUuidKeyObject;
+import com.claridy.khub.admin.core.persistent.SingleNaturalKeyObject;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -26,17 +28,13 @@ import lombok.Setter;
 @Entity
 @Table
 @DynamicUpdate(value = true)
-public class Language extends SurrogateUuidKeyObject {
+public class Language extends SingleNaturalKeyObject<Locale> {
 
     private static final long serialVersionUID = 3411544997438414405L;
 
     // 活動類型
     @Column(length = 50)
     private String type;
-
-    // 語言代碼
-    @Column(length = 5)
-    private String code;
 
     // 國碼
     @Column(length = 5)

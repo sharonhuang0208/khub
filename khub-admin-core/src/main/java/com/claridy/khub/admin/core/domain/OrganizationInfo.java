@@ -1,5 +1,7 @@
 package com.claridy.khub.admin.core.domain;
 
+import java.util.Locale;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -111,8 +113,8 @@ public class OrganizationInfo extends SurrogateUuidKeyObject {
     private String notes;
 
     //語系
-    @Column(length = 5)
-    private String language;
+    @ManyToOne
+    private Language language;
 
     //資料發佈
     private Boolean authority;
