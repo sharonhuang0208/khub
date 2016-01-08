@@ -12,7 +12,7 @@ ext {
         rxjavaVersion='1.1.0'
         servletApiVersion='3.1.0'
         commonsLang3Version = '3.4'
-        joolVersion='0.9.8'
+        joolVersion='0.9.9'
         mockitoVersion='2.0.31-beta'
         hamcrestVersion='1.3'
         mySQLVersion='5.1.38'
@@ -70,16 +70,14 @@ subprojects {
     apply plugin: 'docker'
     apply plugin: 'checkstyle'
     apply plugin: 'findbugs'
-    // Unable to use PMD since issue:https://issues.apache.org/jira/browse/MPMD-204
-    //        apply plugin: 'pmd'
+     apply plugin: 'pmd'
 
     if (project.hasProperty("coverage")) {
         apply plugin: 'cobertura'
         apply plugin: 'com.github.kt3k.coveralls'
-
         cobertura {
             coverageFormats=['xml', 'html']
-            coverageExcludes = ['.*com\\.fet\\.postman\\.core\\.enums.*', '.*org\\.hibernate\\.usertype.*', '.*Test']
+            coverageExcludes = ['.*com\\.claridy\\.khub\\.admin\\.core\\.enums.*', '.*com\\.claridy\\.khub\\.admin\\.core\\.hibernate.*', '.*Test']
         }
     }
     if (project.hasProperty("compatibility")) {
@@ -109,13 +107,6 @@ subprojects {
         compile "org.apache.logging.log4j:log4j-1.2-api:$log4j2Version"
         compile "org.slf4j:jul-to-slf4j:$slf4jVersion"
 
-        //slf4j dependency
-//        compile "org.slf4j:jcl-over-slf4j:$slf4jVersion"
-//        compile "org.slf4j:jul-to-slf4j:$slf4jVersion"
-//        compile "org.slf4j:log4j-over-slf4j:$slf4jVersion"
-//        compile "org.slf4j:slf4j-api:$slf4jVersion"
-//        compile "ch.qos.logback:logback-classic:$logbackVersion"
-
         //postgresql9.4
         compile "org.postgresql:postgresql:$postgresqlVersion"
         //h2
@@ -127,7 +118,7 @@ subprojects {
         compile "org.hibernate:hibernate-java8:$hibernateVersion"
         compile "org.hibernate:hibernate-entitymanager:$hibernateVersion"
         compile "org.hibernate:hibernate-validator:$hibernateValidatorVersion"
-        compile "javax.validation:validation-api:$validationApiVersion"
+//        compile "javax.validation:validation-api:$validationApiVersion"
         compile "javax.transaction:jta:$jtaVersion"
         compile "javax.el:javax.el-api:$javaxElApiVersion"
 
@@ -178,11 +169,13 @@ subprojects {
 
     findbugs { ignoreFailures = true }
 
-    //    pmd {
-    //        ignoreFailures = true
-    //        consoleOutput = false
-    //        ruleSetFiles = rootProject.files("config/pmd/pmd.xml")
-    //    }
+    pmd {
+        // issue:http://stackoverflow.com/questions/33339364/gradle-pmd-plugin-gets-java-lang-noclassdeffounderror-org-w3c-dom-elementtraver
+        toolVersion = "5.3.5"
+        ignoreFailures = true
+        consoleOutput = false
+        ruleSetFiles = rootProject.files("config/pmd/pmd.xml")
+    }
 
 }
 

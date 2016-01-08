@@ -3,7 +3,7 @@ ext {
         // database dsl query language. cooperate with hibernate
         queryDSLVersion = "3.7.0"
         // AOL lambda utils
-        cyclopsVersion='7.0.0'
+        cyclopsVersion='7.1.0'
         // enahnce user type for hibernate
         jadiraVersion='5.0.0.GA'
         // for date time calculation

@@ -12,8 +12,6 @@ ext {
         itextpdfVersion='5.5.8'
         p6spyVersion='2.1.4'
 
-        // lambda utils
-        joolVersion='0.9.8'
         // xml parser
         jooxVersion='1.3.0'
         // implementation of reactive pattern
@@ -45,7 +43,7 @@ dependencies {
     compile project(':khub-admin-core')
 
     //log4j2 dependency
-//    compile "org.apache.logging.log4j:log4j-web:$log4j2Version"
+    //    compile "org.apache.logging.log4j:log4j-web:$log4j2Version"
 
     compile "com.h2database:h2"
 
@@ -79,9 +77,9 @@ task buildDocker(type: Docker, dependsOn: build) {
     applicationName = jar.baseName
     dockerfile = file('src/main/docker/Dockerfile')
     doFirst {
-      copy {
-        from jar
-        into stageDir
-      }
+        copy {
+            from jar
+            into stageDir
+        }
     }
 }
