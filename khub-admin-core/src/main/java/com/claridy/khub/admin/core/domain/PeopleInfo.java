@@ -8,7 +8,6 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.Type;
-import org.hibernate.validator.constraints.Email;
 
 import com.claridy.khub.admin.core.persistent.SurrogateUuidKeyObject;
 
