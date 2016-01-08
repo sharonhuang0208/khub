@@ -10,12 +10,13 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
 
+import com.claridy.khub.admin.core.config.DBType;
 import com.claridy.khub.admin.core.config.JpaConfiguration;
 import com.claridy.khub.admin.core.config.TestConfiguration;
 
 @ContextConfiguration(classes = {JpaConfiguration.class, TestConfiguration.class}, loader = AnnotationConfigContextLoader.class)
 @RunWith(SpringJUnit4ClassRunner.class)
-@ActiveProfiles("h2")
+@ActiveProfiles(DBType.H2)
 public abstract class AnstractPersistence {
 
     @BeforeClass
