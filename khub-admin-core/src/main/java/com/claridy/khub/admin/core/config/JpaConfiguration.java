@@ -1,5 +1,6 @@
 package com.claridy.khub.admin.core.config;
 
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,7 +21,6 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
-import org.springframework.orm.jpa.vendor.Database;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 
 import org.springframework.transaction.PlatformTransactionManager;
@@ -30,7 +30,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @Configuration
 @EnableJpaRepositories(basePackages = { "com.claridy.khub.admin.core.repository" })
 @ComponentScan({ "com.claridy.khub.admin.core.domain", "com.claridy.khub.admin.core.repository",
-        "com.claridy.khub.admin.core.persistent", "com.claridy.khub.admin.core.config" })
+        "com.claridy.khub.admin.core.persistent"})
 public class JpaConfiguration {
 
     @Value("${hibernate.dialect:org.hibernate.dialect.MySQLDialect}")
@@ -46,20 +46,23 @@ public class JpaConfiguration {
     private Boolean createDatabaseSchemas;
 
     @Bean
-    public Map<String, String> jpaProperties() {
+    public Map<String, String> jpaProperties(DataSource dataSource) throws SQLException{
         Map<String, String> jpaProperties = new HashMap<String, String>();
 
         jpaProperties.put(DIALECT, hibernateDialect);
         jpaProperties.put(PHYSICAL_NAMING_STRATEGY, "com.claridy.khub.admin.core.hibernate.ImprovedNamingStrategy");
-        jpaProperties.put(HBM2DDL_AUTO, hibernateHbm2ddlAuto);
         jpaProperties.put(DEFAULT_SCHEMA, hibernateDefaultSchema);
+
+        jpaProperties.put(SCHEMA_GEN_DB_NAME, dataSource.getConnection().getMetaData().getDatabaseProductName());
+        jpaProperties.put(SCHEMA_GEN_DB_MAJOR_VERSION, dataSource.getConnection().getMetaData().getDatabaseProductVersion());
 
         if (createDatabaseSchemas) {
             jpaProperties.put(SCHEMA_GEN_CREATE_SCHEMAS, createDatabaseSchemas.toString());
             jpaProperties.put(SCHEMA_GEN_SCRIPTS_ACTION, "drop-and-create");
             jpaProperties.put(SCHEMA_GEN_SCRIPTS_CREATE_TARGET, "src/main/resources/sql/schema.sql");
             jpaProperties.put(SCHEMA_GEN_SCRIPTS_DROP_TARGET, "src/main/resources/sql/drop.sql");
-        }
+        } else
+            jpaProperties.put(HBM2DDL_AUTO, hibernateHbm2ddlAuto);
 
         return jpaProperties;
     }
@@ -67,22 +70,22 @@ public class JpaConfiguration {
     @Bean
     public JpaVendorAdapter jpaVendorAdapter() {
         HibernateJpaVendorAdapter hibernateJpaVendorAdapter = new HibernateJpaVendorAdapter();
-        hibernateJpaVendorAdapter.setShowSql(true);
-        hibernateJpaVendorAdapter.setGenerateDdl(true);
-        hibernateJpaVendorAdapter.setDatabase(Database.H2);
+        hibernateJpaVendorAdapter.setShowSql(false);
+        hibernateJpaVendorAdapter.setGenerateDdl(false);
+//        hibernateJpaVendorAdapter.setDatabase(Database.H2);
         return hibernateJpaVendorAdapter;
     }
 
     @Bean
-    public PlatformTransactionManager transactionManager(DataSource dataSource) {
+    public PlatformTransactionManager transactionManager(DataSource dataSource) throws SQLException{
         return new JpaTransactionManager(entityManagerFactory(dataSource).getObject());
     }
 
     @Bean
-    public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource) {
+    public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource) throws SQLException{
         LocalContainerEntityManagerFactoryBean localContainerEntityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean();
         localContainerEntityManagerFactoryBean.setDataSource(dataSource);
-        localContainerEntityManagerFactoryBean.setJpaPropertyMap(this.jpaProperties());
+        localContainerEntityManagerFactoryBean.setJpaPropertyMap(this.jpaProperties(dataSource));
         localContainerEntityManagerFactoryBean.setJpaVendorAdapter(this.jpaVendorAdapter());
         localContainerEntityManagerFactoryBean.setPackagesToScan("com.claridy.khub.admin.core.domain");
         return localContainerEntityManagerFactoryBean;

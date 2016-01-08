@@ -5,14 +5,17 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
 
 import com.claridy.khub.admin.core.config.JpaConfiguration;
+import com.claridy.khub.admin.core.config.TestConfiguration;
 
-@ContextConfiguration(classes = JpaConfiguration.class, loader = AnnotationConfigContextLoader.class)
+@ContextConfiguration(classes = {JpaConfiguration.class, TestConfiguration.class}, loader = AnnotationConfigContextLoader.class)
 @RunWith(SpringJUnit4ClassRunner.class)
+@ActiveProfiles("h2")
 public abstract class AnstractPersistence {
 
     @BeforeClass

@@ -32,10 +32,6 @@ public class Language extends SingleNaturalKeyObject<Locale> {
 
     private static final long serialVersionUID = 3411544997438414405L;
 
-    // 活動類型
-    @Column(length = 50)
-    private String type;
-
     // 國碼
     @Column(length = 5)
     private String nationality;
