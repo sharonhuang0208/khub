@@ -1,0 +1,1 @@
+insert into khub.language ( description, display_name, nationality, id) values (NULL, NULL, NULL, 'ja_JP');

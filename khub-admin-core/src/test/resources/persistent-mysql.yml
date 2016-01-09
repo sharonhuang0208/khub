@@ -6,7 +6,11 @@ jdbc:
 
 hibernate:
   dialect: org.hibernate.dialect.MySQLDialect
-  hbm2ddl.auto: update
+  hbm2ddl:
+    auto: create
+    # 是否要匯入初始化資料
+    import_files: sql/import.sql
   default_schema: khub
 
+# 是否要匯出DDL檔案:src/main/resources/sql
 javax.persistence.create-database-schemas: false

@@ -39,11 +39,15 @@ public class JpaConfiguration {
     @Value("${hibernate.hbm2ddl.auto:validate}")
     private String hibernateHbm2ddlAuto;
 
+    @Value("${hibernate.hbm2ddl.import_files:NonExist_File_Prevent_TO_IMPORT}")
+    private String hibernateHbm2ddlImportFiles;
+
     @Value("${hibernate.default_schema:khub}")
     private String hibernateDefaultSchema;
 
     @Value("${javax.persistence.create-database-schemas:false}")
     private Boolean createDatabaseSchemas;
+
 
     @Bean
     public Map<String, String> jpaProperties(DataSource dataSource) throws SQLException{
@@ -56,6 +60,7 @@ public class JpaConfiguration {
         jpaProperties.put(SCHEMA_GEN_DB_NAME, dataSource.getConnection().getMetaData().getDatabaseProductName());
         jpaProperties.put(SCHEMA_GEN_DB_MAJOR_VERSION, dataSource.getConnection().getMetaData().getDatabaseProductVersion());
         jpaProperties.put(HBM2DDL_AUTO, hibernateHbm2ddlAuto);
+        jpaProperties.put(HBM2DDL_IMPORT_FILES, hibernateHbm2ddlImportFiles);
 
         if (createDatabaseSchemas) {
             jpaProperties.put(SCHEMA_GEN_CREATE_SCHEMAS, createDatabaseSchemas.toString());

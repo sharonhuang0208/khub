@@ -2,6 +2,7 @@ package com.claridy.khub.admin.core.domain;
 
 import java.util.Locale;
 
+import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,9 +17,9 @@ public class LanguagePersistenceTest extends AnstractPersistence {
     @Test
     @Transactional
     public void testSaveAndGetAndDelete() throws Exception {
-        Language language = new Language();
-        language.setId(Locale.JAPAN);
-        languageRepository.saveAndFlush(language);
+        Language language = languageRepository.findOne(Locale.JAPAN);
+
+        Assert.assertNotNull(language);
     }
 
     @Override
