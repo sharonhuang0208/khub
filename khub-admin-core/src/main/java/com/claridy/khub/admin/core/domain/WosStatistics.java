@@ -30,18 +30,17 @@ import lombok.Setter;
 @DynamicUpdate(value = true)
 public class WosStatistics extends SurrogateUuidKeyObject {
 
-
     private static final long serialVersionUID = -7528615682114427481L;
 
-    //人員/人事資料識別碼
+    // 人員/人事資料識別碼
     @ManyToOne
-    @JoinColumn(name="people_uuid")
+    @JoinColumn(name = "people_uuid")
     private People people;
 
     // 論文數
     private Integer publicationsNum;
 
-    //被引用數
+    // 被引用數
     private Integer sumTimesCited;
 
     // 平均被引用數

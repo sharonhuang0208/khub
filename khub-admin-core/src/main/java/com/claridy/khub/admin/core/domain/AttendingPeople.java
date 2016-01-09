@@ -40,16 +40,16 @@ public class AttendingPeople extends SurrogateUuidKeyObject {
 
     // 參與活動識別碼
     @ManyToOne
-    @JoinColumn(name="activity_uuid")
+    @JoinColumn(name = "activity_uuid")
     private Activity activity;
 
-    //參與角色代碼
+    // 參與角色代碼
     @Column(length = 50)
     private String roleCode;
 
     // 人員識別碼
     @ManyToOne
-    @JoinColumn(name="people_uuid")
+    @JoinColumn(name = "people_uuid")
     private People people;
 
     // 排序
@@ -103,6 +103,5 @@ public class AttendingPeople extends SurrogateUuidKeyObject {
     // 最後修改者
     @Column(length = 200)
     private String lastModifiedBy;
-
 
 }

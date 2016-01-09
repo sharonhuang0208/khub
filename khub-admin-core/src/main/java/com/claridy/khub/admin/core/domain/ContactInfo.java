@@ -34,9 +34,9 @@ public class ContactInfo extends SurrogateUuidKeyObject {
 
     private static final long serialVersionUID = 129079056989047289L;
 
-    //聯絡人識別碼
+    // 聯絡人識別碼
     @ManyToOne
-    @JoinColumn(name="contact_uuid")
+    @JoinColumn(name = "contact_uuid")
     private Contact contact;
 
     // 聯絡人姓名

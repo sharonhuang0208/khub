@@ -29,14 +29,13 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(uniqueConstraints=
-@UniqueConstraint(columnNames={"type", "code", "language_id"}))
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = { "type", "code", "language_id" }) )
 @DynamicUpdate(value = true)
 public class Code extends SurrogateUuidKeyObject {
 
     private static final long serialVersionUID = -7578515473005617844L;
 
-    //代碼類型
+    // 代碼類型
     @NotNull
     private Integer type;
 
@@ -53,17 +52,17 @@ public class Code extends SurrogateUuidKeyObject {
     @Column(length = 255)
     private String description;
 
-    //語系
+    // 語系
     @ManyToOne
     @NotNull
     private Language language;
 
-    //狀態
+    // 狀態
     @Type(type = "com.claridy.khub.admin.core.hibernate.StatusEnumValueUserType")
     @Column(length = 1, nullable = false)
     private StatusEnum status;
 
-    //排序
+    // 排序
     private Integer seq;
 
 }

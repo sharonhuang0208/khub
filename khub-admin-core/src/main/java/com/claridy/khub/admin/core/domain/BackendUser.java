@@ -3,7 +3,6 @@ package com.claridy.khub.admin.core.domain;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -70,19 +69,19 @@ public class BackendUser extends SurrogateUuidKeyObject {
     // 資料維護權限層級 0:一般 1:全部
     @Type(type = "com.claridy.khub.admin.core.hibernate.PermissionEnumValueUserType")
     @Column(length = 1, nullable = false)
-    private  PermissionEnum dataPermissionLevel;
+    private PermissionEnum dataPermissionLevel;
 
-    @ManyToMany(cascade=CascadeType.ALL)
+    @ManyToMany
     @JoinTable(name = "user_role_map", joinColumns = { @JoinColumn(name = "user_uuid") }, inverseJoinColumns = {
             @JoinColumn(name = "role_uuid") })
     private Set<Role> roles = new HashSet<Role>();
 
-    @ManyToMany(cascade=CascadeType.ALL)
+    @ManyToMany
     @JoinTable(name = "user_data_permission", joinColumns = { @JoinColumn(name = "user_uuid") }, inverseJoinColumns = {
             @JoinColumn(name = "member_uuid") })
     private Set<Member> members = new HashSet<Member>();
 
-    @ManyToMany(cascade=CascadeType.ALL)
+    @ManyToMany
     @JoinTable(name = "org_data_permission", joinColumns = { @JoinColumn(name = "user_uuid") }, inverseJoinColumns = {
             @JoinColumn(name = "org_uuid") })
     private Set<Organization> orgs = new HashSet<Organization>();
@@ -94,5 +93,47 @@ public class BackendUser extends SurrogateUuidKeyObject {
     // 最後修改者
     @Column(length = 200)
     private String lastModifiedBy;
+
+    public void addRole(Role role) {
+        if (!roles.contains(role)) {
+            roles.add(role);
+            role.addBackendUser(this);
+        }
+    }
+
+    public void removeRole(Role role) {
+        if (roles.contains(role)) {
+            roles.remove(role);
+            role.removeBackendUser(this);
+        }
+    }
+
+    public void addMember(Member member) {
+        if (!members.contains(member)) {
+            members.add(member);
+            member.addBackendUser(this);
+        }
+    }
+
+    public void removeMember(Member member) {
+        if (members.contains(member)) {
+            members.remove(member);
+            member.removeBackendUser(this);
+        }
+    }
+
+    public void addOrganization(Organization organization) {
+        if (!orgs.contains(organization)) {
+            orgs.add(organization);
+            organization.addBackendUser(this);
+        }
+    }
+
+    public void removeOrganization(Organization organization) {
+        if (orgs.contains(organization)) {
+            orgs.remove(organization);
+            organization.removeBackendUser(this);
+        }
+    }
 
 }

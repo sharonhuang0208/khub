@@ -41,8 +41,22 @@ public class Activity extends SurrogateUuidKeyObject {
     private String type;
 
     @ManyToMany
-    @JoinTable(name = "related_activity_map", joinColumns = { @JoinColumn(name = "activity_uuid") }, inverseJoinColumns = {
-            @JoinColumn(name = "related_activity_uuid") })
+    @JoinTable(name = "related_activity_map", joinColumns = {
+            @JoinColumn(name = "activity_uuid") }, inverseJoinColumns = { @JoinColumn(name = "related_activity_uuid") })
     private Set<Activity> activities = new HashSet<Activity>();
+
+    public void addActivity(Activity activity) {
+        if (!activities.contains(activity)) {
+            activities.add(activity);
+            activity.addActivity(this);
+        }
+    }
+
+    public void removeActivity(Activity activity) {
+        if (activities.contains(activity)) {
+            activities.remove(activity);
+            activity.removeActivity(this);
+        }
+    }
 
 }

@@ -36,73 +36,72 @@ import lombok.Setter;
 @DynamicUpdate(value = true)
 public class Member extends SurrogateUuidKeyObject {
 
-
     private static final long serialVersionUID = -7304115401048088158L;
 
-    //KHUB入口網帳號
+    // KHUB入口網帳號
     @Column(length = 200)
     private String accountId;
 
-    //全名
+    // 全名
     @Column(length = 100)
     private String fullName;
 
-    //英文全名
+    // 英文全名
     @Column(length = 100)
     private String fullNameEn;
 
-    //維護對象ID
+    // 維護對象ID
     @Column(length = 50)
     private String idNo;
 
-    //人員/人事資料識別碼
+    // 人員/人事資料識別碼
     @ManyToOne
-    @JoinColumn(name="people_uuid")
+    @JoinColumn(name = "people_uuid")
     private People people;
 
-    //職稱
+    // 職稱
     @Column(length = 50)
     private String jobTitle;
 
-    //機構種類
+    // 機構種類
     private Integer organizationType;
 
-    //機構名稱
+    // 機構名稱
     @Column(length = 200)
     private String organizationName;
 
-    //機構代碼
+    // 機構代碼
     @Column(length = 50)
     private String organizationId;
 
-    //部門
+    // 部門
     @Column(length = 100)
     private String department;
 
-    //學院
+    // 學院
     @Column(length = 100)
     private String college;
 
-    //大學
+    // 大學
     @Column(length = 100)
     private String university;
 
-    //城市
+    // 城市
     @Column(length = 100)
     private String city;
 
     @Column(length = 100)
     private String state;
 
-    //國家
+    // 國家
     @Column(length = 100)
     private String country;
 
-    //國家代碼
+    // 國家代碼
     @Column(length = 10)
     private String countryCode;
 
-    //會員狀態
+    // 會員狀態
     @Type(type = "com.claridy.khub.admin.core.hibernate.StatusEnumValueUserType")
     @Column(length = 1, nullable = false)
     private StatusEnum status;
@@ -121,5 +120,19 @@ public class Member extends SurrogateUuidKeyObject {
     // 最後修改者
     @Column(length = 200)
     private String lastModifiedBy;
+
+    public void addBackendUser(BackendUser backendUser) {
+        if (!backendUsers.contains(backendUser)) {
+            backendUsers.add(backendUser);
+            backendUser.addMember(this);
+        }
+    }
+
+    public void removeBackendUser(BackendUser backendUser) {
+        if (backendUsers.contains(backendUser)) {
+            backendUsers.remove(backendUser);
+            backendUser.addMember(this);
+        }
+    }
 
 }

@@ -3,7 +3,6 @@ package com.claridy.khub.admin.core.domain;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -37,12 +36,12 @@ public class Organization extends SurrogateUuidKeyObject {
 
     private static final long serialVersionUID = -5033288950616489226L;
 
-    //父組織
+    // 父組織
     @ManyToOne
-    @JoinColumn(name="parent_uuid")
+    @JoinColumn(name = "parent_uuid")
     private Organization parent;
 
-    //統一編號
+    // 統一編號
     @Column(length = 50)
     private String taxId;
 
@@ -54,23 +53,23 @@ public class Organization extends SurrogateUuidKeyObject {
     @Column(length = 5)
     private String type;
 
-    //大專院校單位代碼
+    // 大專院校單位代碼
     @Column(length = 50)
     private String collegeId;
 
-    //計畫系統單位代碼
+    // 計畫系統單位代碼
     @Column(length = 50)
     private String projectSysId;
 
-    //WoS機構代碼
+    // WoS機構代碼
     @Column(length = 50)
     private String wosOrgId;
 
-    //Scopus機構代碼
+    // Scopus機構代碼
     @Column(length = 50)
     private String scopusOrgId;
 
-    @ManyToMany(cascade=CascadeType.ALL, mappedBy="orgs")
+    @ManyToMany(mappedBy = "orgs")
     @org.hibernate.annotations.BatchSize(size = 4)
     private Set<BackendUser> backendUsers = new HashSet<BackendUser>();
 
@@ -81,5 +80,19 @@ public class Organization extends SurrogateUuidKeyObject {
     // 最後修改者
     @Column(length = 200)
     private String lastModifiedBy;
+
+    public void addBackendUser(BackendUser backendUser) {
+        if (!backendUsers.contains(backendUser)) {
+            backendUsers.add(backendUser);
+            backendUser.addOrganization(this);
+        }
+    }
+
+    public void removeBackendUser(BackendUser backendUser) {
+        if (backendUsers.contains(backendUser)) {
+            backendUsers.remove(backendUser);
+            backendUser.removeOrganization(this);
+        }
+    }
 
 }

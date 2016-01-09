@@ -2,7 +2,6 @@ package com.claridy.khub.admin.core.domain;
 
 import java.time.LocalDateTime;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -53,297 +52,297 @@ public class PublicationInfo extends SurrogateUuidKeyObject {
     @Column(length = 50)
     private String electronicId;
 
-    //其他題名
+    // 其他題名
     @Column(length = 255)
     private String otherTitle;
 
-    //其他英文題名
+    // 其他英文題名
     @Column(length = 255)
     private String otherTitleEn;
 
-    //機構典藏編號
+    // 機構典藏編號
     @Column(length = 50)
     private String sysid;
 
-    //題名
+    // 題名
     @Column(length = 255)
     private String title;
 
-    //英文題名
+    // 英文題名
     @Column(length = 255)
     private String titleEn;
 
-    //文獻類型
+    // 文獻類型
     @Column(length = 50)
     private String type;
 
-    //資料發佈
+    // 資料發佈
     private Boolean authority;
 
-    //來源出處
+    // 來源出處
     @Column(length = 255)
     private String citation;
 
-    //來源題名
+    // 來源題名
     @Column(length = 255)
     private String sourceTitle;
 
-    //來源題名縮寫
+    // 來源題名縮寫
     @Column(length = 255)
     private String abbreviatedSourceTitle;
 
-    //卷
+    // 卷
     @Column(length = 50)
     private String volume;
 
-    //期
+    // 期
     @Column(length = 50)
     private String issue;
 
-    //起頁
+    // 起頁
     private Integer firstpage;
 
-    //迄頁
+    // 迄頁
     private Integer lastpage;
 
-    //頁碼計數
+    // 頁碼計數
     private Integer pageCount;
 
-    //集代碼
+    // 集代碼
     @Column(length = 50)
     private String collectionId;
 
-    //集
+    // 集
     @Column(length = 50)
     private String collection;
 
-    //版
+    // 版
     @Column(length = 50)
     private String edition;
 
-    //特別期號
+    // 特別期號
     @Column(length = 50)
     private String specialIssue;
 
-    //WOS書籍章節計數器
+    // WOS書籍章節計數器
     private Integer wosBookChapterCount;
 
-    //出版者
+    // 出版者
     @Column(length = 50)
     private String publisher;
 
-    //出版地
+    // 出版地
     @Column(length = 50)
     private String publicationPlace;
 
-    //出版年
+    // 出版年
     @Column(length = 4)
     private String publicationYear;
 
-    //出版月
+    // 出版月
     @Column(length = 2)
     private String publicationMonth;
 
-    //出版日
+    // 出版日
     @Column(length = 2)
     private String publicationDay;
 
-    //補充說明
-    @Type(type="text")
+    // 補充說明
+    @Type(type = "text")
     private String notes;
 
-    //文獻類型代碼
+    // 文獻類型代碼
     @Column(length = 5)
     private String publicationTypeCode;
 
-    //khub文獻類型代碼
+    // khub文獻類型代碼
     @Column(length = 5)
     private String khubPublicationTypeCode;
 
-    //經費來源
+    // 經費來源
     @Column(length = 50)
     private String foundingSource;
 
-    //經費用途
+    // 經費用途
     @Column(length = 50)
     private String funcingPurposes;
 
-    //發表形式
+    // 發表形式
     @Column(length = 50)
     private String media;
 
-    //pdf保全不保全
+    // pdf保全不保全
     private Boolean pdfSecurity;
 
-    //是否被翻譯
+    // 是否被翻譯
     private Boolean hasTranslated;
 
-    //ISSN
+    // ISSN
     @Column(length = 50)
     private String issn;
 
-    //ISBN
+    // ISBN
     @Column(length = 20)
     private String isbn;
 
-    //CODEN
+    // CODEN
     @Column(length = 50)
     private String coden;
 
-    //PubMed ID
+    // PubMed ID
     @Column(length = 50)
     private String pubMedId;
 
-    //EID
+    // EID
     @Column(length = 50)
     private String eid;
 
-    //WOS文章編號
+    // WOS文章編號
     @Column(length = 50)
     private String wosArticleNumber;
 
-    //Scopus出版品識別碼
+    // Scopus出版品識別碼
     @Column(length = 50)
     private String scopusPublicationId;
 
-    //著作權聲明
-    @Type(type="text")
+    // 著作權聲明
+    @Type(type = "text")
     private String copyright;
 
-    //創用cc
+    // 創用cc
     @Column(length = 50)
     private String cc;
 
-    //取用權是否開放
+    // 取用權是否開放
     private Integer accessRight;
 
-    //開放取用權日期
+    // 開放取用權日期
     private LocalDateTime accessRightDate;
 
-    //來源資料庫代碼
+    // 來源資料庫代碼
     @Column(length = 5)
     private String dbSourceAutoCode;
 
-    //下載次數
+    // 下載次數
     private Integer recordStatus;
 
-    //備註
-    @Type(type="text")
+    // 備註
+    @Type(type = "text")
     private String remark;
 
-    //來源連結
+    // 來源連結
     @Column(length = 200)
     private String sourceLink;
 
-    //是否經過審查
+    // 是否經過審查
     private Boolean peerReview;
 
-    //原文獻語言
+    // 原文獻語言
     @Column(length = 5)
     private String languageOrg;
 
-    //摘要連結
+    // 摘要連結
     @Column(length = 255)
     private String scopusAbstractUrl;
 
-    //相關連結
-    @Type(type="text")
+    // 相關連結
+    @Type(type = "text")
     private String relatedLink;
 
-    //DOI連結
+    // DOI連結
     @Column(length = 255)
     private String doi;
 
-    //NTHUR URL
-    @Type(type="text")
+    // NTHUR URL
+    @Type(type = "text")
     private String nthurUrl;
 
-    //化學物質/CAS
+    // 化學物質/CAS
     @Column(length = 255)
     private String chemicalsCas;
 
-    //商標
+    // 商標
     @Column(length = 50)
     private String tradenames;
 
-    //製造商
+    // 製造商
     @Column(length = 50)
     private String manufacturers;
 
-    //WOS相關紀錄
-    @Type(type="text")
+    // WOS相關紀錄
+    @Type(type = "text")
     private String wosRelatedRecords;
 
-    //Scopus引用連結
+    // Scopus引用連結
     @Column(length = 255)
     private String scopusCitedByUrl;
 
-    //Google Scholar連結
+    // Google Scholar連結
     @Column(length = 255)
     private String googleScholarUrl;
 
-    //摘要
-    @Type(type="text")
-    @Column(name="abstract")
+    // 摘要
+    @Type(type = "text")
+    @Column(name = "abstract")
     private String abstractCn;
 
-    //英文摘要
-    @Type(type="text")
+    // 英文摘要
+    @Type(type = "text")
     private String abstractEn;
 
-    //參考文獻
-    @Type(type="text")
+    // 參考文獻
+    @Type(type = "text")
     private String refs;
 
-    //關鍵字
+    // 關鍵字
     @Column(length = 255)
     private String reservationKeywords;
 
-    //英文關鍵字
+    // 英文關鍵字
     @Column(length = 255)
     private String reservationKeywordsEn;
 
-    //作者關鍵字
+    // 作者關鍵字
     @Column(length = 255)
     private String authorKeywords;
 
-    //加碼關鍵字
+    // 加碼關鍵字
     @Column(length = 255)
     private String keywordPlus;
 
-    //索引關鍵字
+    // 索引關鍵字
     @Column(length = 255)
     private String indexKeywords;
 
-    //學科領域(scopus)
-    @Type(type="text")
+    // 學科領域(scopus)
+    @Type(type = "text")
     private String subjectScopus;
 
-    //學科領域(WOS)
-    @Type(type="text")
+    // 學科領域(WOS)
+    @Type(type = "text")
     private String subjectWos;
 
-    //scopus引用數
+    // scopus引用數
     private Integer scopusReferencesCnt;
 
-    //scopus被引用數
+    // scopus被引用數
     private Integer scopusCitedTimes;
 
-    //Scopus是否為高被引文章
+    // Scopus是否為高被引文章
     private Boolean scopusIsHighCited;
 
-    //wos引用數
+    // wos引用數
     private Integer wosReferencesCnt;
 
-    //wos被引用數
+    // wos被引用數
     private Integer wosCitedTimes;
 
-    //wos是否為高被引文章
+    // wos是否為高被引文章
     private Boolean wosIsHighCited;
 
-    //活動識別碼
-    @ManyToOne(cascade=CascadeType.ALL)
-    @JoinColumn(name="activity_uuid")
+    // 活動識別碼
+    @ManyToOne
+    @JoinColumn(name = "activity_uuid")
     private Activity activity;
 
     // 建立者

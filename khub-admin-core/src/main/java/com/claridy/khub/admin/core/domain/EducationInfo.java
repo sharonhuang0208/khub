@@ -34,7 +34,7 @@ public class EducationInfo extends SurrogateUuidKeyObject {
 
     // 學歷識別碼
     @ManyToOne
-    @JoinColumn(name="education_uuid")
+    @JoinColumn(name = "education_uuid")
     private Education education;
 
     // 學歷學位
@@ -51,7 +51,7 @@ public class EducationInfo extends SurrogateUuidKeyObject {
 
     // 學歷機構識別碼
     @ManyToOne
-    @JoinColumn(name="org_uuid")
+    @JoinColumn(name = "org_uuid")
     private Organization organization;
 
     // 自填就學機構名稱

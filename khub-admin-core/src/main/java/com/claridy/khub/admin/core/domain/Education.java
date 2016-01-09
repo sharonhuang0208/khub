@@ -32,9 +32,9 @@ public class Education extends SurrogateUuidKeyObject {
 
     private static final long serialVersionUID = -6347403096480231965L;
 
-    //人員/人事資料識別碼
+    // 人員/人事資料識別碼
     @ManyToOne
-    @JoinColumn(name="people_uuid")
+    @JoinColumn(name = "people_uuid")
     private People people;
 
     // 建立者

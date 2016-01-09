@@ -47,8 +47,8 @@ public class Resource extends SurrogateUuidKeyObject {
     private String description;
 
     // 應用程式
-    @ManyToOne(optional=false)
-    @JoinColumn(name = "applicatio_uuid", nullable=false)
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "applicatio_uuid", nullable = false)
     private Application application;
 
     // 權限代碼
@@ -61,8 +61,8 @@ public class Resource extends SurrogateUuidKeyObject {
     private StatusEnum status;
 
     // 父功能
-    @ManyToOne(optional=true)
-    @JoinColumn(name = "parent_uuid", nullable=true)
+    @ManyToOne(optional = true)
+    @JoinColumn(name = "parent_uuid", nullable = true)
     private Resource parent;
 
     // 功能url
@@ -80,5 +80,19 @@ public class Resource extends SurrogateUuidKeyObject {
     // 最後修改者
     @Column(length = 200)
     private String lastModifiedBy;
+
+    public void addRole(Role role) {
+        if (!roles.contains(role)) {
+            roles.add(role);
+            role.addResource(this);
+        }
+    }
+
+    public void removeRole(Role role) {
+        if (roles.contains(role)) {
+            roles.remove(role);
+            role.removeResource(this);
+        }
+    }
 
 }

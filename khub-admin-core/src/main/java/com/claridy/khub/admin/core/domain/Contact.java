@@ -32,9 +32,9 @@ public class Contact extends SurrogateUuidKeyObject {
 
     private static final long serialVersionUID = 5784608887742280301L;
 
-    //機構識別碼
+    // 機構識別碼
     @ManyToOne
-    @JoinColumn(name="org_uuid")
+    @JoinColumn(name = "org_uuid")
     private Organization organization;
 
     // 聯絡人類型

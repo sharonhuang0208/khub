@@ -32,24 +32,24 @@ public class Photo extends SurrogateUuidKeyObject {
 
     private static final long serialVersionUID = 6443526825475914497L;
 
-    //人員/人事資料識別碼
+    // 人員/人事資料識別碼
     @ManyToOne
-    @JoinColumn(name="people_uuid")
+    @JoinColumn(name = "people_uuid")
     private People people;
 
     // 順序
     private Integer seq;
 
-    //檔案名稱
-    @Column(length=50)
+    // 檔案名稱
+    @Column(length = 50)
     private String fileName;
 
     // 檔案路徑
-    @Column(length=50)
+    @Column(length = 50)
     private String filePath;
 
     // 連結位址
-    @Column(length=50)
+    @Column(length = 50)
     private String url;
 
     // 建立者

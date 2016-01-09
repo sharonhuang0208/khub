@@ -2,6 +2,7 @@ package com.claridy.khub.admin.core.persistent;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
@@ -59,6 +60,7 @@ public abstract class SingleNaturalKeyObject<K extends Serializable> extends
     private static final long serialVersionUID = 1976237878603557487L;
 
     @Id
+    @Column(name = "id")
     private K id;
 
     @Override

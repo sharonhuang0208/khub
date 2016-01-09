@@ -32,9 +32,9 @@ public class CurrentPostInfo extends SurrogateUuidKeyObject {
 
     private static final long serialVersionUID = -6973895736859508606L;
 
-    //現職
+    // 現職
     @ManyToOne
-    @JoinColumn(name="current_post_uuid")
+    @JoinColumn(name = "current_post_uuid")
     private CurrentPost currentPost;
 
     // 職稱代碼
@@ -55,7 +55,7 @@ public class CurrentPostInfo extends SurrogateUuidKeyObject {
 
     // 現職機構識別碼
     @ManyToOne
-    @JoinColumn(name="org_uuid")
+    @JoinColumn(name = "org_uuid")
     private Organization org;
 
     // 校內榮譽頭銜

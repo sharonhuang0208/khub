@@ -3,7 +3,6 @@ package com.claridy.khub.admin.core.domain;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinTable;
@@ -60,7 +59,7 @@ public class Role extends SurrogateUuidKeyObject {
             @JoinColumn(name = "resource_uuid") })
     private Set<Resource> resources = new HashSet<Resource>();
 
-    @ManyToMany(cascade=CascadeType.ALL, mappedBy="roles")
+    @ManyToMany(mappedBy = "roles")
     @org.hibernate.annotations.BatchSize(size = 4)
     private Set<BackendUser> backendUsers = new HashSet<BackendUser>();
 
@@ -71,5 +70,33 @@ public class Role extends SurrogateUuidKeyObject {
     // 最後修改者
     @Column(length = 200)
     private String lastModifiedBy;
+
+    public void addResource(Resource resource) {
+        if (!resources.contains(resource)) {
+            resources.add(resource);
+            resource.addRole(this);
+        }
+    }
+
+    public void removeResource(Resource resource) {
+        if (resources.contains(resource)) {
+            resources.remove(resource);
+            resource.removeRole(this);
+        }
+    }
+
+    public void addBackendUser(BackendUser backendUser) {
+        if (!backendUsers.contains(backendUser)) {
+            backendUsers.add(backendUser);
+            backendUser.addRole(this);
+        }
+    }
+
+    public void removeBackendUser(BackendUser backendUser) {
+        if (backendUsers.contains(backendUser)) {
+            backendUsers.remove(backendUser);
+            backendUser.removeRole(this);
+        }
+    }
 
 }

@@ -32,20 +32,20 @@ public class ExperienceInfo extends SurrogateUuidKeyObject {
 
     private static final long serialVersionUID = -154975932211092066L;
 
-    //人員/人事資料識別碼
+    // 人員/人事資料識別碼
     @ManyToOne
-    @JoinColumn(name="people_uuid")
+    @JoinColumn(name = "people_uuid")
     private People people;
 
     @ManyToOne
-    @JoinColumn(name="experience_uuid")
+    @JoinColumn(name = "experience_uuid")
     private Experience experience;
 
     // 職別
     @Column(length = 50)
     private String position;
 
-    //經歷_年份（起）
+    // 經歷_年份（起）
     @Column(length = 4)
     private String durationBeginY;
 
@@ -53,9 +53,9 @@ public class ExperienceInfo extends SurrogateUuidKeyObject {
     @Column(length = 4)
     private String durationEndY;
 
-    //任職構識別碼
+    // 任職構識別碼
     @ManyToOne
-    @JoinColumn(name="organization_uuid")
+    @JoinColumn(name = "organization_uuid")
     private Organization organization;
 
     // 建立者

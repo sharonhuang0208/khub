@@ -34,20 +34,20 @@ public class ActivityLink extends SurrogateUuidKeyObject {
 
     // 參與活動類型
     @Column(length = 20)
-    String activityType;
+    private String activityType;
 
     // 參與活動識別碼
     @ManyToOne
     @JoinColumn(name = "activity_uuid")
-    Activity activity;
+    private Activity activity;
 
     // 連結名稱
     @Column(length = 255)
-    String name;
+    private String name;
 
     // URL
     @Column(length = 255)
-    String url;
+    private String url;
 
     // 建立者
     @Column(length = 200)
